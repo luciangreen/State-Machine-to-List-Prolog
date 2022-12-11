@@ -96,7 +96,7 @@ F="[]",
 %trace,
 
 
- get_brackets(Number,D,E,[],C4,wrap),
+ get("[]",Number,D,E,[],C4,_,wrap),
 
 
 /*
@@ -139,6 +139,11 @@ C111=[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number
 
 F=Dbw_not,
 %trace,
+
+get(Dbw_not,Number,D,E,_,C3,_,wrap),
+
+
+/*
  append(A,C,D),
 
  C=[C112|E],
@@ -151,6 +156,9 @@ append(A,[C112],AC),
 get_up_to_next_chunk(AC,[],C31),
 
 C3=[[[Dbw_n,F],C31]],
+
+*/
+
 
 append(C1,C3,C4),
 
@@ -174,6 +182,10 @@ CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number]
 
 F=Dbw_or,
 %trace,
+ 
+ get(Dbw_or,Number,D,E1,_,C3,_,wrap),
+ 
+ /*
  append(A,C,D),
 
  C=[C111|E],
@@ -200,6 +212,9 @@ get_up_to_next_chunk(AC1,[],C311),
 %trace,
 foldr(append,[C31,C311],C313),
 C3=[[[Dbw_n,F],C313]],
+*/
+
+
 
 append(C1,C3,C4),
 
@@ -224,6 +239,10 @@ CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number]
 
 F="->", % 3 args
 %trace,
+
+get("->",Number,D,E5,C1,C3,_,wrap),
+
+/*
  append(A,C,D),
 
  C=[C111|E],
@@ -236,7 +255,7 @@ F="->", % 3 args
 
  (%append(A,[C111],AC),
  %trace,
- get_brackets(Number2,C%AC%E E*
+ get("[]",Number2,C%AC%E E*
   ,E2,[],C32,nowrap),
   append(C1,C32,C31));
 
@@ -261,7 +280,7 @@ E=E2
 
 
  (%append(A1,[C112],AC1),
- get_brackets(Number31,%E1%
+ get("[]",Number31,%E1%
  C11%,AC1%E*
   ,E3,[]%C1
   ,C311,nowrap));
@@ -276,41 +295,43 @@ get_up_to_next_chunk(AC1,[],C311)
 )),
 
 
-
-
-
  append(A13,C113,E3),
 
- C113=[C113|E4],
+ C113=[C1131|E4],
  
  %trace,
- C113=[Number41,[Dbw_on_true,A33],[Dbw_go_after,B3],[Dbw_on_false,_Number43],[Dbw_go_to_predicates,_],[Dbw_n,F33]|_Arguments33],
+ C1131=[Number41,[Dbw_on_true,A33],[Dbw_go_after,B3],[Dbw_on_false,_Number43],[Dbw_go_to_predicates,_],[Dbw_n,F33]|_Arguments33],
 
 (A33=[exit_function,Number]->true;B3=[exit_function,Number]),
 (F33="[]"->
 
 
  (%append(A1,[C112],AC1),
- get_brackets(Number41,%E1%
+ get("[]",Number41,%E1%
  C113%,AC1%E*
   ,E5,[]%C1
-  ,C313,nowrap));
+  ,C313,nowrap)
+  
+  % eliminate ->,2
+  %here1
+  );
 
 (
 
 %convert_chunk
 %trace,
-append(A13,[C113],AC13),
+append(A13,[C1131],AC13),
 get_up_to_next_chunk(AC13,[],C313)
 ,E4=E5
 )),
 
-
-
-
 %trace,
 foldr(append,[C31,C311,C313],C314),
 C3=[[[Dbw_n,F],C314]],
+*/
+
+
+
 
 append(C1,C3,C4),
 
@@ -335,6 +356,10 @@ CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number]
 
 F="->", % 2 args
 %trace,
+
+get("->",Number,D,E3,C1,C3,_,wrap),
+/*
+
  append(A,C,D),
 
  C=[C111|E],
@@ -347,7 +372,7 @@ F="->", % 2 args
 
  (%append(A,[C111],AC),
  %trace,
- get_brackets(Number2,C%AC%E E*
+ get("[]",Number2,C%AC%E E*
   ,E2,[],C32,nowrap),
   append(C1,C32,C31));
 
@@ -372,7 +397,7 @@ E=E2
 
 
  (%append(A1,[C112],AC1),
- get_brackets(Number31,%E1%
+ get("[]",Number31,%E1%
  C11%,AC1%E*
   ,E3,[]%C1
   ,C311,nowrap));
@@ -389,6 +414,10 @@ get_up_to_next_chunk(AC1,[],C311)
 %trace,
 foldr(append,[C31,C311],C313),
 C3=[[[Dbw_n,F],C313]],
+*/
+
+
+
 
 append(C1,C3,C4),
 
@@ -408,19 +437,21 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 %get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
-get_lang_word("findall_exit_function",Dbw_findall_exit_function1),Dbw_findall_exit_function1=Dbw_findall_exit_function,
-get_lang_word("findall_fail_function",Dbw_findall_fail_function1),Dbw_findall_fail_function1=Dbw_findall_fail_function,
 
 CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F],[Argument1,Argument2]]|D],
 
 F=Dbw_findall,
 %trace,
+get(Dbw_findall,Number,D,E,_,C3,[Argument1,Argument2],wrap),
 
 
  %get_brackets(Number,D,E,[],C4,wrap),
 
 
 %/*
+
+
+/*
  append(A,C,D),
 
  C=[C111|E],
@@ -435,6 +466,12 @@ get_up_to_next_chunk(AC,[],C31),
 %C3=[C31], % "[]"
 foldr(append,[[Argument1],C31,[Argument2]],Arguments3),
 C3=[[[Dbw_n,F],Arguments3]],
+
+*/
+
+
+
+
 
 %append(C1,C3,C4),
 %*/
@@ -461,7 +498,9 @@ findall(A1,(member([_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Sta
 (Arguments=[]->A1=[[Dbw_n,F]];A1=[[Dbw_n,F],Arguments])
 ),B).
 
-get_brackets(Number,D,E,C1,C4,Wrap) :-
+
+
+get("[]",Number,D,E,C1,C4,_,Wrap) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
@@ -470,6 +509,7 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 %trace,
  append(A,C,D),
 
+(Wrap=nowrap->not(A=[]);true),
  C=[C111|E],
  C111=[_Number2,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_],[Dbw_go_to_predicates,_],[Dbw_n,_F2]|_Arguments2],
 
@@ -479,11 +519,302 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 append(A,[C111],AC),
 get_up_to_next_chunk(AC,[],C31),
 
-(Wrap=wrap->
-C3=C31;
-C3=[
+(Wrap=wrap
+->
+C3=[C31];
+C3=
 C31
-])
+)
 , % "[]"
 
 append(C1,C3,C4).
+
+
+get(Dbw_not,Number,D,E,_,C3,_,Wrap) :-
+
+F=Dbw_not,
+
+ get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
+get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
+get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
+
+ get_lang_word("not",Dbw_not1),Dbw_not1=Dbw_not,
+
+
+ append(A,C,D),
+(Wrap=nowrap->not(A=[]);true),
+
+ C=[C112|E],
+
+C112=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,[fail_function,Number]],[Dbw_go_to_predicates,-],[Dbw_n,_F2]|_Arguments2],
+
+%convert_chunk
+%trace,
+append(A,[C112],AC),
+get_up_to_next_chunk(AC,[],C31),
+
+(true%Wrap=wrap
+->
+C3=[[[Dbw_n,F],C31]];
+C3=[[Dbw_n,F],C31]).
+
+
+get(Dbw_or,Number,D,E1,_,C3,_,Wrap) :-
+
+F=Dbw_or,
+ get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
+get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
+get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
+
+get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
+
+append(A,C,D),
+(Wrap=nowrap->not(A=[]);true),
+
+ C=[C111|E],
+ 
+ C111=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,-],[Dbw_n,_F2]|_Arguments2],
+
+%convert_chunk
+%trace,
+append(A,[C111],AC),
+%trace,
+get_up_to_next_chunk(AC,[],C31),
+
+
+ append(A1,C11,E),
+
+ C11=[C112|E1],
+ 
+ C112=[_Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,-],[Dbw_n,_F3]|_Arguments3],
+
+%convert_chunk
+%trace,
+append(A1,[C112],AC1),
+get_up_to_next_chunk(AC1,[],C311),
+%trace,
+foldr(append,[C31,C311],C313),
+
+(true%Wrap=wrap
+->
+C3=[[[Dbw_n,F],C313]];
+C3=[[Dbw_n,F],C313]).
+
+
+%->,3
+get("->",Number,D,E5,C1,C3,_,Wrap) :-
+
+F="->",
+ get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
+get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
+get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
+
+ append(A,C,D),
+(Wrap=nowrap->not(A=[]);true),
+
+ C=[C111|E],
+ 
+%trace,
+ C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+%trace,
+get_lang_word("not",Dbw_not1),Dbw_not1=Dbw_not,
+get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
+get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
+
+%trace,
+
+((F2="[]"->true;(F2=Dbw_not->true;(F2=Dbw_or->true;(F2="->"->true;(F2=Dbw_findall)))))->
+
+
+ (%append(A,[C111],AC),
+ %trace,
+ get(F2,Number2,C%AC%E E*
+  ,E2,[],C32,Arguments2,nowrap),
+  append(C1
+  ,C32,C31));
+
+(
+%convert_chunk
+%trace,
+append(A,[C111],AC),
+%trace,
+get_up_to_next_chunk(AC,[],C31),
+E=E2
+)),
+
+ append(A1,C11,E2),
+
+ C11=[C112|E1x],
+ 
+ %trace,
+ C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,F3]|Arguments3],
+
+(A3=[exit_function,Number]->true;B=[exit_function,Number]),
+
+((F3="[]"->true;(F3=Dbw_not->true;(F3=Dbw_or->true;(F3="->"->true;(F3=Dbw_findall)))))->
+
+
+ (%append(A1,[C112],AC1),
+ get(F3,Number31,%E1%
+ C11%,AC1%E*
+  ,E3,[]%C1
+  ,C311,Arguments3,nowrap));
+
+(
+
+%convert_chunk
+%trace,
+append(A1,[C112],AC1),
+get_up_to_next_chunk(AC1,[],C311)
+,E1x=E3
+)),
+
+
+ append(A13,C113,E3),
+
+ C113=[C1131|E4],
+ 
+ %trace,
+ C1131=[Number41,[Dbw_on_true,A33],[Dbw_go_after,B3],[Dbw_on_false,_Number43],[Dbw_go_to_predicates,_],[Dbw_n,F33]|Arguments33],
+
+(A33=[exit_function,Number]->true;B3=[exit_function,Number]),
+
+((F33="[]"->true;(F33=Dbw_not->true;(F33=Dbw_or->true;(F33="->"->true;(F33=Dbw_findall)))))->
+
+
+ (%append(A1,[C112],AC1),
+ get(F33,Number41,%E1%
+ C113%,AC1%E*
+  ,E5,[]%C1
+  ,C313,Arguments33,nowrap)
+  
+  % eliminate ->,2
+  %here1
+  );
+
+(
+
+%convert_chunk
+%trace,
+append(A13,[C1131],AC13),
+get_up_to_next_chunk(AC13,[],C313)
+,E4=E5
+)),
+
+%trace,
+foldr(append,[C31,C311,C313],C314),
+
+(true%Wrap=wrap
+->
+C3=[[[Dbw_n,F],C314]];
+C3=[[Dbw_n,F],C314]).
+
+%->,2
+get("->",Number,D,E3,C1,C3,_,Wrap) :-
+
+F="->",
+ get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
+get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
+get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
+
+ append(A,C,D),
+(Wrap=nowrap->not(A=[]);true),
+
+ C=[C111|E],
+ 
+%trace,
+ C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+%trace,
+((F2="[]"->true;(F2=Dbw_not->true;(F2=Dbw_or->true;(F2="->"->true;(F2=Dbw_findall)))))->
+
+
+ (%append(A,[C111],AC),
+ %trace,
+ get(F2,Number2,C%AC%E E*
+  ,E2,[],C32,Arguments2,nowrap),
+  append(C1
+  ,C32,C31));
+
+(
+%convert_chunk
+%trace,
+append(A,[C111],AC),
+%trace,
+get_up_to_next_chunk(AC,[],C31),
+E=E2
+)),
+
+ append(A1,C11,E2),
+
+ C11=[C112|E1],
+ 
+ %trace,
+ C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,F3]|Arguments3],
+
+(A3=[exit_function,Number]->true;B=[exit_function,Number]),
+
+((F3="[]"->true;(F3=Dbw_not->true;(F3=Dbw_or->true;(F3="->"->true;(F3=Dbw_findall)))))->
+
+
+ (%append(A1,[C112],AC1),
+ get(F3,Number31,%E1%
+ C11%,AC1%E*
+  ,E3,[]%C1
+  ,C311,Arguments3,nowrap));
+
+(
+
+%convert_chunk
+%trace,
+append(A1,[C112],AC1),
+get_up_to_next_chunk(AC1,[],C311)
+,E1=E3
+)),
+
+%trace,
+foldr(append,[C31,C311],C313),
+
+(true%Wrap=wrap
+->
+C3=[[[Dbw_n,F],C313]];
+C3=[[Dbw_n,F],C313]).
+
+
+get(Dbw_findall,Number,D,E,_,C3,[Argument1,Argument2],Wrap) :-
+
+F=Dbw_findall,
+
+ get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
+get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
+get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
+
+get_lang_word("findall_exit_function",Dbw_findall_exit_function1),Dbw_findall_exit_function1=Dbw_findall_exit_function,
+get_lang_word("findall_fail_function",Dbw_findall_fail_function1),Dbw_findall_fail_function1=Dbw_findall_fail_function,
+
+get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
+
+ append(A,C,D),
+(Wrap=nowrap->not(A=[]);true),
+
+ C=[C111|E],
+ 
+ C111=[_Number2,[Dbw_on_true,[Dbw_findall_exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,[Dbw_findall_fail_function,Number]],[Dbw_go_to_predicates,_],[Dbw_n,_F2]|_Arguments2],
+
+%convert_chunk
+%trace,
+append(A,[C111],AC),
+get_up_to_next_chunk(AC,[],C31),
+
+%C3=[C31], % "[]"
+foldr(append,[[Argument1],C31,[Argument2]],Arguments3),
+
+(true%Wrap=wrap
+->
+C3=[[[Dbw_n,F],Arguments3]];
+C3=[[Dbw_n,F],Arguments3]).
+
