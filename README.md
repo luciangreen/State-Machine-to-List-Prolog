@@ -49,7 +49,8 @@ halt
 
 * For example, convert a List Prolog test algorithm to SM form and  back to LP form.  (Replace [1] with the list of test numbers below.)
 
-``` A=[1],findall(B,(member(B,A),test(B,Q,F,R),query_box(Q,Query1,F,Functions1),convert_to_grammar_part1(Functions1,[],Functions2,_),add_line_numbers_to_algorithm1(Functions2,Functions2a),find_pred_numbers(Functions2a,[],Pred_numbers),find_state_machine1(Functions2a,Functions3,Pred_numbers),sm_to_lp(Functions3,Functions2b),writeln1(Functions2),writeln1(Functions2b)),C),!.                  
+```
+A=[1],findall(B,(member(B,A),test(B,Q,F,R),query_box(Q,Query1,F,Functions1),convert_to_grammar_part1(Functions1,[],Functions2,_),add_line_numbers_to_algorithm1(Functions2,Functions2a),find_pred_numbers(Functions2a,[],Pred_numbers),find_state_machine1(Functions2a,Functions3,Pred_numbers),sm_to_lp(Functions3,Functions2b),writeln1(Functions2),writeln1(Functions2b)),C),!.                  
 
 [[[n,query_box_1],":-",[[[n,function]]]],[[n,function],":-",[[[n,equals4_on]]]]]
 [[[n,query_box_1],":-",[[[n,function]]]],[[n,function],":-",[[[n,equals4_on]]]]]
