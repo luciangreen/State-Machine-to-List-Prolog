@@ -55,6 +55,12 @@ numbers(3,1,[],A),findall([B,Result],(member(B,A),test(B,Q,F,R),query_box(Q,Quer
 1
 [[[n,query_box_1],":-",[[[n,function]]]],[[n,function],":-",[[[n,equals4_on]]]]]
 [[[n,query_box_1],":-",[[[n,function]]]],[[n,function],":-",[[[n,equals4_on]]]]]
+2
+[[[n,query_box_1],[[v,c]],":-",[[[n,function],[1,1,[v,c]]]]],[[n,function],[[v,a],[v,b],[v,c]],":-",[[[n,+],[[v,a],[v,b],[v,d]]],[[n,+],[[v,d],1,[v,c]]]]]]
+[[[n,query_box_1],[[v,c]],":-",[[[n,function],[1,1,[v,c]]]]],[[n,function],[[v,a],[v,b],[v,c]],":-",[[[n,+],[[v,a],[v,b],[v,d]]],[[n,+],[[v,d],1,[v,c]]]]]]
+3
+[[[n,query_box_1],[[v,c]],":-",[[[n,function],[1,1,[v,c]]]]],[[n,function],[[v,a],[v,b],[v,c]],":-",[[[n,function2],[[v,d],[v,f]]],[[n,+],[[v,a],[v,b],[v,e]]],[[n,+],[[v,e],[v,f],[v,g]]],[[n,+],[[v,g],[v,d],[v,c]]]]],[[n,function2],[[v,a],[v,f]],":-",[[[n,is],[[v,a],2]],[[n,is],[[v,f],1]]]]]
+[[[n,query_box_1],[[v,c]],":-",[[[n,function],[1,1,[v,c]]]]],[[n,function],[[v,a],[v,b],[v,c]],":-",[[[n,function2],[[v,d],[v,f]]],[[n,+],[[v,a],[v,b],[v,e]]],[[n,+],[[v,e],[v,f],[v,g]]],[[n,+],[[v,g],[v,d],[v,c]]]]],[[n,function2],[[v,a],[v,f]],":-",[[[n,is],[[v,a],2]],[[n,is],[[v,f],1]]]]]
 
 [[1,success],[2,success],[3,success]]
 ```
