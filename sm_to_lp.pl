@@ -6,8 +6,9 @@ sm_to_lp(Algorithm1,Algorithm2) :-
 sm_to_lp([],Algorithm,Algorithm) :- !.
 sm_to_lp(Algorithm1,Algorithm2,Algorithm3) :-
 	Algorithm1=[Function1|Functions],
-	Function1=[_Number,Name,Arguments1,Symbol1,Body1],%symbol(Symbol1,Symbol2),
-	
+	(Function1=[_Number,Name,Arguments1,Symbol1,Body1]
+	->%symbol(Symbol1,Symbol2),
+	(
 	get_up_to_next_chunk(Body1,%Body2,
 	[],Body2),
 	(Arguments1=[]->
@@ -16,7 +17,22 @@ sm_to_lp(Algorithm1,Algorithm2,Algorithm3) :-
 	append(Algorithm2,[[%Number,
 	Name,Arguments1,Symbol1,Body2]],Algorithm4)
 
-	),
+	)
+	)
+	/*;
+	(trace,Function1=[_Number,Name|Arguments1],
+	
+	%get_up_to_next_chunk(Body1,%Body2,
+	%[],Body2),
+	(Arguments1=[]->
+	append(Algorithm2,[[%Number,
+	Name]],Algorithm4);
+	append(Algorithm2,[[%Number,
+	Name,Arguments1]],Algorithm4)
+
+	)
+	)
+	*/),
 	sm_to_lp(Functions,Algorithm4,Algorithm3).
 	
 	
@@ -28,6 +44,7 @@ get_up_to_next_chunk([],C,C) :- !.
 get_up_to_next_chunk(B,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+ get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -40,7 +57,8 @@ get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
  
 C=[C111|D],
 
-C111=[_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]|_Arguments],
+C111=[_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|_Arguments],
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 %trace,
 (
 (F="[]"->true;(F=Dbw_not->true;(F=Dbw_or->true;(F="->"->true;(F=Dbw_findall)))))
@@ -83,6 +101,7 @@ get_chunks([],C,C) :- !.
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -90,8 +109,9 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 %get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 %get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]|_Arguments]|D],
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|_Arguments]|D],
 
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 F="[]",
 %trace,
 
@@ -104,7 +124,7 @@ F="[]",
 
  C=[C111|E],
  
- C111=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,[fail_function,Number]],[Dbw_go_to_predicates,-],[Dbw_n,_F2]|_Arguments2],
+ C111=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,[fail_function,Number]],[Dbw_go_to_predicates,_],[Dbw_n,_F2]|_Arguments2],
 
 %convert_chunk
 %trace,
@@ -126,6 +146,7 @@ append(C6,C5,C2)
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -135,7 +156,8 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 
 CD=[C111|D],
 
-C111=[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]|_Arguments],
+C111=[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|_Arguments],
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 F=Dbw_not,
 %trace,
@@ -148,7 +170,7 @@ get(Dbw_not,Number,D,E,C1,C3,_,wrap),
 
  C=[C112|E],
 
-C112=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,[fail_function,Number]],[Dbw_go_to_predicates,-],[Dbw_n,_F2]|_Arguments2],
+C112=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,[fail_function,Number]],[Dbw_go_to_predicates,_],[Dbw_n,_F2]|_Arguments2],
 
 %convert_chunk
 %trace,
@@ -171,6 +193,7 @@ append(C4,C5,C2)
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -178,7 +201,9 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 %get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]|_Arguments]|D],
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|_Arguments]|D],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 F=Dbw_or,
 %trace,
@@ -190,7 +215,7 @@ F=Dbw_or,
 
  C=[C111|E],
  
- C111=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,-],[Dbw_n,_F2]|_Arguments2],
+ C111=[_Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n,_F2]|_Arguments2],
 
 %convert_chunk
 %trace,
@@ -203,7 +228,7 @@ get_up_to_next_chunk(AC,[],C31),
 
  C11=[C112|E1],
  
- C112=[_Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,-],[Dbw_n,_F3]|_Arguments3],
+ C112=[_Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,_F3]|_Arguments3],
 
 %convert_chunk
 %trace,
@@ -227,15 +252,18 @@ append(C4,C5,C2)
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
  %get_lang_word("not",Dbw_not1),Dbw_not1=Dbw_not,
 %get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 %get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
-
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]%,[_Argument1,_Argument2]
+%trace,
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]%,[_Argument2]%,[_Argument1,_Argument2]
 ]|D],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 F="->", % 3 args
 %trace,
@@ -344,6 +372,7 @@ append(C4,C5,C2)
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -351,8 +380,10 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 %get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 %get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F]%,[_Argument1,_Argument2]
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]%,[_Argument1,_Argument2]
 ]|D],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 F="->", % 2 args
 %trace,
@@ -430,6 +461,8 @@ append(C4,C5,C2)
 get_chunks(CD,C1,C2) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+   get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
+
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -438,7 +471,9 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
 
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F],[Argument1,Argument2]]|D],
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F],[Argument1,Argument2]]|D],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 F=Dbw_findall,
 %trace,
@@ -489,13 +524,14 @@ convert_chunk([],[]) :- !.
 convert_chunk(A,B) :-
 
   get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
 
-findall(A1,(member([_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n,F],Arguments],A),
+findall(A1,(member([_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v,F],Arguments],A),(Dbw_n_or_v=Dbw_n->true;Dbw_n_or_v=Dbw_v),
 %trace,
-(Arguments=[]->A1=[[Dbw_n,F]];A1=[[Dbw_n,F],Arguments])
+(Arguments=[]->A1=[[Dbw_n_or_v,F]];A1=[[Dbw_n_or_v,F],Arguments])
 ),B).
 
 
@@ -503,6 +539,7 @@ findall(A1,(member([_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Sta
 get("[]",Number,D,E2,C1,C4,_,Wrap) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -511,8 +548,9 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 
 (Wrap=nowrap->not(A=[]);true),
  C=[C111|E],
- C111=[Number2,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+ C111=[Number2,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
 
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 
 (A3=[exit_function,Number]->true;B=[exit_function,Number]),
@@ -568,6 +606,7 @@ get(Dbw_not,Number,D,E2,C1,C3,_,Wrap) :-
 F=Dbw_not,
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -581,7 +620,9 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
  C=[C112|E],
 
 C112=[Number2,[Dbw_on_true,A3],[Dbw_go_after,A4],[Dbw_on_false,_%[fail_function,Number]
-],[Dbw_go_to_predicates,-],[Dbw_n,F2]|Arguments2],
+],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 (A3=[exit_function,Number]->true;A4=[exit_function,Number]),
 %convert_chunk
@@ -627,19 +668,21 @@ get(Dbw_or,Number,D,E3,C1,C3,_,Wrap) :-
 
 F=Dbw_or,
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
 
 get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
-
+%trace,
 append(A,C,D),
 (Wrap=nowrap->not(A=[]);true),
 
  C=[C111|E],
  
- C111=[Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,-],[Dbw_n,F2]|Arguments2],
+ C111=[Number2,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
 
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 
 
@@ -655,7 +698,7 @@ get_up_to_next_chunk(AC,[],C31),
 
  C11=[C112|E1],
  
- C112=[_Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,-],[Dbw_n,_F3]|_Arguments3],
+ C112=[_Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,_F3]|_Arguments3],
 
 %convert_chunk
 %trace,
@@ -699,7 +742,9 @@ E=E2
 
  C11=[C112|E1],
  
- C112=[Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,-],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,-],[Dbw_n,F3]|Arguments3],
+ C112=[Number31,[Dbw_on_true,[exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n_or_v2,F3]|Arguments3],
+ 
+ (Dbw_n_or_v2=Dbw_n->true;Dbw_n_or_v2=Dbw_v),
 
 ((F3="[]"->true;(F3=Dbw_not->true;(F3=Dbw_or->true;(F3="->"->true;(F3=Dbw_findall)))))->
 
@@ -734,6 +779,7 @@ get("->",Number,D,E5,C1,C3,_,Wrap) :-
 
 F="->",
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -744,7 +790,10 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
  C=[C111|E],
  
 %trace,
- C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+ C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
+
 %trace,
 get_lang_word("not",Dbw_not1),Dbw_not1=Dbw_not,
 get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
@@ -776,7 +825,9 @@ E=E2
  C11=[C112|E1x],
  
  %trace,
- C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,F3]|Arguments3],
+ C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n_or_v2,F3]|Arguments3],
+
+(Dbw_n_or_v2=Dbw_n->true;Dbw_n_or_v2=Dbw_v),
 
 (A3=[exit_function,Number]->true;B=[exit_function,Number]),
 
@@ -804,7 +855,9 @@ get_up_to_next_chunk(AC1,[],C311)
  C113=[C1131|E4],
  
  %trace,
- C1131=[Number41,[Dbw_on_true,A33],[Dbw_go_after,B3],[Dbw_on_false,_Number43],[Dbw_go_to_predicates,_],[Dbw_n,F33]|Arguments33],
+ C1131=[Number41,[Dbw_on_true,A33],[Dbw_go_after,B3],[Dbw_on_false,_Number43],[Dbw_go_to_predicates,_],[Dbw_n_or_v3,F33]|Arguments33],
+
+(Dbw_n_or_v3=Dbw_n->true;Dbw_n_or_v3=Dbw_v),
 
 (A33=[exit_function,Number]->true;B3=[exit_function,Number]),
 
@@ -843,6 +896,7 @@ get("->",Number,D,E3,C1,C3,_,Wrap) :-
 
 F="->",
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -853,8 +907,11 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
  C=[C111|E],
  
 %trace,
- C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+ C111=[Number2,[Dbw_on_true,_N1],[Dbw_go_after,_],[Dbw_on_false,_Number3],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
 %trace,
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
+
 ((F2="[]"->true;(F2=Dbw_not->true;(F2=Dbw_or->true;(F2="->"->true;(F2=Dbw_findall)))))->
 
 
@@ -879,7 +936,9 @@ E=E2
  C11=[C112|E1],
  
  %trace,
- C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n,F3]|Arguments3],
+ C112=[Number31,[Dbw_on_true,A3],[Dbw_go_after,B],[Dbw_on_false,_Number4],[Dbw_go_to_predicates,_],[Dbw_n_or_v2,F3]|Arguments3],
+
+(Dbw_n_or_v2=Dbw_n->true;Dbw_n_or_v2=Dbw_v),
 
 (A3=[exit_function,Number]->true;B=[exit_function,Number]),
 
@@ -915,6 +974,7 @@ get(Dbw_findall,Number,D,E2,C1,C3,[Argument1,Argument2],Wrap) :-
 F=Dbw_findall,
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
+  get_lang_word("v",Dbw_v1),Dbw_v1=Dbw_v,
 get_lang_word("on_true",Dbw_on_true1),Dbw_on_true1=Dbw_on_true,
 get_lang_word("on_false",Dbw_on_false1),Dbw_on_false1=Dbw_on_false,
 get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word("go_to_predicates",Dbw_go_to_predicates1),Dbw_go_to_predicates1=Dbw_go_to_predicates,
@@ -929,7 +989,9 @@ get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
  C=[C111|E],
  
- C111=[Number2,[Dbw_on_true,[Dbw_findall_exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,[Dbw_findall_fail_function,Number]],[Dbw_go_to_predicates,_],[Dbw_n,F2]|Arguments2],
+ C111=[Number2,[Dbw_on_true,[Dbw_findall_exit_function,Number]],[Dbw_go_after,_],[Dbw_on_false,[Dbw_findall_fail_function,Number]],[Dbw_go_to_predicates,_],[Dbw_n_or_v1,F2]|Arguments2],
+
+(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 %convert_chunk
 %trace,
