@@ -837,7 +837,8 @@ member([Number2,[Dbw_on_true,A],[Dbw_go_after,B],[Dbw_on_false,D],[Dbw_go_to_pre
 (A=[Fail_or_exit1,A2]->A1=A2;A1=A),
 (D=[Fail_or_exit2,D2]->D1=D2;D1=D),
 
-((Fail_or_exit1=exit_function->true;Fail_or_exit1=fail_function)->true;(Fail_or_exit2=exit_function->true;Fail_or_exit2=fail_function)),
+((Fail_or_exit1=exit_function->true;Fail_or_exit1=fail_function)%->true;(Fail_or_exit2=exit_function->true;Fail_or_exit2=fail_function)
+),
 
 %get_last_line(A1,C,CL1),
 
