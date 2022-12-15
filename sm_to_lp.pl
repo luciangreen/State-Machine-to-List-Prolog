@@ -11,7 +11,7 @@ sm_to_lp(Algorithm1,Algorithm2,Algorithm3) :-
 	(
 	get_up_to_next_chunk(Body1,%Body2,
 	[],Body2),
-	(Arguments1=[]->
+	(false->%Arguments1=[]->
 	append(Algorithm2,[[%Number,
 	Name,Symbol1,Body2]],Algorithm4);
 	append(Algorithm2,[[%Number,
@@ -846,5 +846,5 @@ member([Number2,[Dbw_on_true,A],[Dbw_go_after,B],[Dbw_on_false,D],[Dbw_go_to_pre
 
 %(CL1>=CL2->CL=CL1;CL=CL2))),!.
 
-(A1=Number->true;D1=Number),
+(A1=Number),%,->true%;D1=Number),
 CL=[Number2,[Dbw_on_true,A],[Dbw_go_after,B],[Dbw_on_false,D],[Dbw_go_to_predicates,E],[Dbw_n_or_v1,F2]|Arguments2])))).

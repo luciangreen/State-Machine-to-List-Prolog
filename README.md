@@ -50,7 +50,7 @@ halt
 * For example, convert a List Prolog test algorithm to SM form and  back to LP form and test they have the same result.  (Replace `3` in `numbers(3,1,[],A)` with the  maximum test number below.)
 
 ```
-?- numbers(10,1,[],A),findall(B,(member(B,A),test(B,Q,F,R),query_box(Q,Query1,F,Functions1),convert_to_grammar_part1(Functions1,[],Functions2,_),add_line_numbers_to_algorithm1(Functions2,Functions2a),find_pred_numbers(Functions2a,[],Pred_numbers),find_state_machine1(Functions2a,Functions3,Pred_numbers),sm_to_lp(Functions3,Functions2b),lucianpl(off,Q,F,R1),lucianpl(off,Q,Functions2b,R2),(R1=R2->Result=success;Result=fail),writeln([B,Result])),C),sort(C,C1),writeln(C1).
+?- numbers(10,1,[],A),findall(B,(Debug=off,member(B,A),test(B,Q,F,R),query_box(Q,Query1,F,Functions1),convert_to_grammar_part1(Functions1,[],Functions2,_),add_line_numbers_to_algorithm1(Functions2,Functions2a),find_pred_numbers(Functions2a,[],Pred_numbers),find_state_machine1(Functions2a,Functions3,Pred_numbers),sm_to_lp(Functions3,Functions2b),lucianpl(Debug,Q,F,R1),Functions2b=[[_|_]|Functions2c],lucianpl(off,Q,Functions2c,R2),(R1=R2->Result=success;Result=fail),writeln([B,Result])),C),sort(C,C1),writeln(C1).
 
 [[1,success],[2,success],[3,success],[4,success],[5,success],[6,success],[7,success],[8,success],[9,success],[10,success]]
 ```
