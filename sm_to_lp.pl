@@ -148,14 +148,14 @@ get_lang_word("go_after",Dbw_go_after1),Dbw_go_after1=Dbw_go_after,get_lang_word
 %get_lang_word("or",Dbw_or1),Dbw_or1=Dbw_or,
 %get_lang_word("findall",Dbw_findall1),Dbw_findall1=Dbw_findall,
 
-CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|_Arguments]|D],
+CD=[[Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Statements2_number],[Dbw_on_false,_Return_line_false],[Dbw_go_to_predicates,_Predicates],[Dbw_n_or_v1,F]|Arguments]|D],
 
 (Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 %F="[]",
 %trace,
+%(F=findall->trace;true),
 
-
- get(F,Number,D,E,[],C4,_,wrap),
+ get(F,Number,D,E,[],C4,Arguments,wrap),
 
 
 append(C1,C4,C6),
@@ -183,7 +183,7 @@ findall(A1,(member([_Number,[Dbw_on_true,_Statements1_number],[Dbw_go_after,_Sta
 
 
 
-get(F,Number,D,E2,C1,C4,[Argument1,Argument2],Wrap) :-
+get(F,Number,D,E2,C1,C4,[[Argument1,Argument2]],Wrap) :-
 
  get_lang_word("n",Dbw_n1),Dbw_n1=Dbw_n,
 get_lang_word("not",Dbw_not1),Dbw_not1=Dbw_not,
@@ -822,7 +822,9 @@ get_last_line2(Number,C,CL) :-
  ((reverse(C,CR),member([Number2,[_Dbw_on_true,_],[_Dbw_go_after,B],[_Dbw_on_false,_],[_Dbw_go_to_predicates,_],[_Dbw_n_or_v1,_F2]|_Arguments2],CR),
  ((
  B=[Fail_or_exit,Number],
-(Fail_or_exit=exit_function->true;Fail_or_exit=fail_function)
+(Fail_or_exit=exit_function->true;(Fail_or_exit=fail_function->true;
+(Fail_or_exit=findall_exit_function->true;
+Fail_or_exit=findall_fail_function)))
 %(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v)
 ,
 
@@ -834,11 +836,12 @@ member([Number2,[Dbw_on_true,A],[Dbw_go_after,B],[Dbw_on_false,D],[Dbw_go_to_pre
 %(Dbw_n_or_v1=Dbw_n->true;Dbw_n_or_v1=Dbw_v),
 
 
-(A=[Fail_or_exit1,A2]->A1=A2;A1=A),
+(A=[Fail_or_exit,A2]->A1=A2;A1=A),
 %(D=[Fail_or_exit2,D2]->D1=D2;D1=D),
 
-((Fail_or_exit1=exit_function->true;Fail_or_exit1=fail_function)%->true;(Fail_or_exit2=exit_function->true;Fail_or_exit2=fail_function)
-),
+(Fail_or_exit=exit_function->true;(Fail_or_exit=fail_function->true;
+(Fail_or_exit=findall_exit_function->true;
+Fail_or_exit=findall_fail_function))),
 
 %get_last_line(A1,C,CL1),
 
