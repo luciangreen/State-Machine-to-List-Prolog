@@ -39,7 +39,8 @@ cd List-Prolog-Package-Manager
 swipl
 ['lppm'].
 lppm_install("luciangreen","State-Machine-to-List-Prolog").
-halt
+../
+halt.
 ```
 
 # Running
